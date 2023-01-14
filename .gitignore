@@ -1,5 +1,10 @@
 /.idea
+
+# backend
 **/target
 **/data/*
 **/dist
+
+# frontend
+**/node_modules
 
