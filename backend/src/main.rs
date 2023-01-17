@@ -36,6 +36,10 @@ async fn main() -> std::io::Result<()> {
                     web::scope("post")
                         .service(post::get_post_from_id)
                 )
+                .service(
+                    web::scope("create")
+                        .service(post::create_post)
+                )
             )
 
     })

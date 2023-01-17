@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<p v-if="$fetchState.pending">Loading</p>
-		<p v-if="$fetchState.error">Error occured</p>
+		<p v-if="$fetchState.error">Error connecting to backend!</p>
 		<div v-else v-for="post in posts_data.posts" :key="post">
 			<h1>
 				{{ post.title }}

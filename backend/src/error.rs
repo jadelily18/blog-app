@@ -3,12 +3,18 @@ use actix_web::http::header::ContentType;
 use actix_web::http::StatusCode;
 use derive_more::{Display};
 
-#[derive(Debug, Display)]
+#[derive(thiserror::Error, Debug)]
 pub enum ApiError {
+    #[error("Not found error")]
     UserNotFound,
+    #[error("Bad request error")]
     UserUpdateFailure,
+    #[error("Bad request error")]
     UserCreateFailure,
-    BadUserRequest
+    #[error("Bad request error")]
+    BadUserRequest,
+    #[error("Database error: {0}")]
+    DatabaseError(#[from] sqlx::Error)
 }
 
 impl ResponseError for ApiError {
@@ -17,7 +23,10 @@ impl ResponseError for ApiError {
             ApiError::UserNotFound => StatusCode::NOT_FOUND,
             ApiError::UserUpdateFailure => StatusCode::FAILED_DEPENDENCY,
             ApiError::UserCreateFailure => StatusCode::FAILED_DEPENDENCY,
-            ApiError::BadUserRequest => StatusCode::BAD_REQUEST
+            ApiError::BadUserRequest => StatusCode::BAD_REQUEST,
+            ApiError::DatabaseError(..) => {
+                StatusCode::INTERNAL_SERVER_ERROR
+            }
         }
     }
 
