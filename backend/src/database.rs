@@ -1,6 +1,7 @@
-// use sqlx::sqlite::{SqlitePool, SqlitePoolOptions};
-use sqlx::SqlitePool;
-use sqlx::sqlite::SqlitePoolOptions;
+use sqlx::{Connection, Sqlite, SqliteConnection, SqlitePool};
+use sqlx::sqlite::{SqliteConnectOptions, SqlitePoolOptions};
+use sqlx::migrate::{MigrateDatabase, MigrateError};
+use std::str::FromStr;
 
 
 pub async fn connect() -> Result<SqlitePool, sqlx::Error> {
@@ -14,3 +15,7 @@ pub async fn connect() -> Result<SqlitePool, sqlx::Error> {
 
     Ok(pool)
 }
+
+//
+// Create database if it doesn't already exist!
+//

@@ -2,10 +2,8 @@
 	<div>
 		<p v-if="$fetchState.pending">Loading</p>
 		<p v-if="$fetchState.error">Error connecting to backend!</p>
-		<div v-else v-for="post in posts_data.posts" :key="post">
-			<h1>
-				{{ post.title }}
-			</h1>
+		<div class="posts-container" v-else v-for="post in posts_data.posts" :key="post">
+			<PostCard v-bind:key="post"/>
 		</div>
 
 
@@ -28,3 +26,11 @@
 		}
 	})
 </script>
+
+<style lang="scss" scoped>
+.posts-container {
+	*, :not(&:last-child) {
+		margin-bottom: 1rem;
+	}
+}
+</style>

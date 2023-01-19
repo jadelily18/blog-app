@@ -1,7 +1,6 @@
 use actix_web::{HttpResponse, ResponseError};
 use actix_web::http::header::ContentType;
 use actix_web::http::StatusCode;
-use derive_more::{Display};
 
 #[derive(thiserror::Error, Debug)]
 pub enum ApiError {

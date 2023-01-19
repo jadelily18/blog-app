@@ -1,4 +1,3 @@
-use derive_more::Display;
 use serde::{Serialize, Deserialize};
 use sqlx::FromRow;
 

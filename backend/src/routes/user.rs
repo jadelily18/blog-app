@@ -22,8 +22,8 @@ pub async fn get_all_users(pool: web::Data<sqlx::Pool<Sqlite>>) -> Result<HttpRe
 #[get("{user_id}")]
 pub async fn get_user_by_id(
     pool: web::Data<sqlx::Pool<Sqlite>>,
-    user_id: web::Path<String>) -> Result<HttpResponse, ApiError> {
-
+    user_id: web::Path<String>
+) -> Result<HttpResponse, ApiError> {
     let data = sqlx::query_as::<_, User>(
         &format!(
             "SELECT * FROM users WHERE user_id = '{}';", user_id)

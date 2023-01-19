@@ -1,6 +1,5 @@
-use std::ptr::null;
 use actix_web::{web, get, post, HttpResponse};
-use chrono::{DateTime, Utc};
+use chrono::{Utc};
 use sqlx::Sqlite;
 
 use crate::model::post::{NewPost, Post, PostList};
@@ -22,7 +21,7 @@ pub async fn get_all_posts(pool: web::Data<sqlx::Pool<Sqlite>>) -> Result<HttpRe
 }
 
 #[get("{post_id}")]
-pub async fn get_post_from_id(
+pub async fn get_post_by_id(
     pool: web::Data<sqlx::Pool<Sqlite>>,
     post_id: web::Path<String>
 ) -> Result<HttpResponse, ApiError> {
