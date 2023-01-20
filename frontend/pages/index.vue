@@ -2,8 +2,8 @@
 	<div>
 		<p v-if="$fetchState.pending">Loading</p>
 		<p v-if="$fetchState.error">Error connecting to backend!</p>
-		<div class="posts-container" v-else v-for="post in posts_data.posts" :key="post">
-			<PostCard v-bind:key="post"/>
+		<div class="posts-container" v-else v-for="post in posts_data.posts">
+			<PostCard :post="post"/>
 		</div>
 
 

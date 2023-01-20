@@ -1,11 +1,11 @@
 <template>
 	<div class="card">
 		<div class="card-header">
-			<h1 class="card-title">{{ this.$vnode.key.title }}</h1>
-			<p class="card-date">{{ this.$vnode.key.date_time }}</p>
+			<h1 class="card-title">{{ post.title }}</h1>
+			<p class="card-date">{{ post.date_time }}</p>
 		</div>
 		<div class="card-content">
-			{{ this.$vnode.key.description }}
+			{{ post.description }}
 		</div>
 		<div class="card-footer">
 			by <span>{{ author.first_name }}</span>
@@ -18,12 +18,15 @@
 	import Vue from "vue"
 	export default Vue.extend({
 		name: "PostCard",
+		props: {
+			post: Object
+		},
 		data: () => ({
 			author: {}
 		}),
 		async fetch() {
 			this.author = await fetch(
-				"http://localhost:8081/api/user/" + this.$vnode.key.author_id
+				"http://localhost:8081/api/user/" + this.post.author_id
 			).then(res => res.json())
 		},
 	})
