@@ -1,9 +1,10 @@
 <template>
 	<div class="card">
 		<div class="card-header">
-			<h1 class="card-title">{{ post.title }}</h1>
-			<p class="card-date">{{ post.date_time }}</p>
+			<a class="card-title" :href="'/post/' + post.post_id">{{ post.title }}</a>
+			<p class="card-date">{{ formatDate(post.date_time) }}</p>
 		</div>
+		<div class="divider"/>
 		<div class="card-content">
 			{{ post.description }}
 		</div>
@@ -16,6 +17,10 @@
 
 <script lang="ts">
 	import Vue from "vue"
+
+	import dayjs from "dayjs";
+
+
 	export default Vue.extend({
 		name: "PostCard",
 		props: {
@@ -29,6 +34,11 @@
 				"http://localhost:8081/api/user/" + this.post.author_id
 			).then(res => res.json())
 		},
+		methods: {
+			formatDate(date_epoch: number) {
+				return dayjs.unix(date_epoch).format("MMM, D YYYY")
+			}
+		}
 	})
 </script>
 
@@ -49,10 +59,20 @@
 
 		.card-title {
 			margin: 0;
+			color: var(--color-text);
+
+			text-decoration: none;
+			font-size: 1.55rem;
+			font-weight: 600;
 		}
 
 		.card-date {
+			margin: 0;
 			margin-left: 0.5rem;
+
+			font-size: 0.9rem;
+			font-style: italic;
+			text-decoration: underline;
 		}
 	}
 }
