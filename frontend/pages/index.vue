@@ -1,8 +1,14 @@
+<script lang="ts" setup>
+
+const { pending, error, data: posts } = await useFetch("http://localhost:8081/api/posts")
+
+</script>
+
 <template>
 	<div>
-		<p v-if="$fetchState.pending">Loading</p>
-		<p v-if="$fetchState.error">Error connecting to backend!</p>
-		<div class="posts-container" v-else v-for="post in posts_data.posts">
+		<p v-if="pending">Loading</p>
+		<p v-if="error">Error connecting to backend!</p>
+		<div class="posts-container" v-else v-for="post in posts.posts">
 			<PostCard :post="post"/>
 		</div>
 
@@ -11,20 +17,13 @@
 </template>
 
 <script lang="ts">
-	import Vue from "vue";
+import PostCard from "~/components/PostCard.vue";
 
-	export default Vue.extend({
-		data() {
-			return {
-				posts_data: {}
-			}
-		},
-		async fetch() {
-			this.posts_data = await fetch(
-				"http://localhost:8081/api/posts"
-			).then(res => res.json())
-		}
-	})
+export default defineComponent({
+  components: {
+    PostCard
+  }
+})
 </script>
 
 <style lang="scss" scoped>

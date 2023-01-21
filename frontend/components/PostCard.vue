@@ -1,8 +1,24 @@
+<script lang="ts" setup>
+import { Clock } from "lucide-vue-next"
+
+const props = defineProps({
+  post: Object
+})
+
+const { data: author } = await useFetch(
+    "http://localhost:8081/api/user/" + props.post?.author_id
+)
+
+</script>
+
 <template>
 	<div class="card">
 		<div class="card-header">
 			<a class="card-title" :href="'/post/' + post.post_id">{{ post.title }}</a>
-			<p class="card-date">{{ formatDate(post.date_time) }}</p>
+			<div class="card-date">
+        <Clock size="16" />
+				<p>{{ formatDate(post.date_time) }}</p>
+			</div>
 		</div>
 		<div class="divider"/>
 		<div class="card-content">
@@ -16,30 +32,12 @@
 </template>
 
 <script lang="ts">
-	import Vue from "vue"
+import dayjs from "dayjs";
 
-	import dayjs from "dayjs";
+function formatDate(date_epoch: number) {
+  return dayjs.unix(date_epoch).format("MMM, D YYYY h:mma")
+}
 
-
-	export default Vue.extend({
-		name: "PostCard",
-		props: {
-			post: Object
-		},
-		data: () => ({
-			author: {}
-		}),
-		async fetch() {
-			this.author = await fetch(
-				"http://localhost:8081/api/user/" + this.post.author_id
-			).then(res => res.json())
-		},
-		methods: {
-			formatDate(date_epoch: number) {
-				return dayjs.unix(date_epoch).format("MMM, D YYYY")
-			}
-		}
-	})
 </script>
 
 <style lang="scss" scoped>
@@ -48,13 +46,14 @@
 	flex-direction: column;
 
 	width: 30rem;
-	padding: 0.5rem 0.75rem 1rem;
+	padding: 0.75rem 1rem 1.15rem;
 
 	border-radius: 0.25rem;
 	background-color: #363636;
 
 	.card-header {
 		display: flex;
+		justify-content: space-between;
 		place-items: center;
 
 		.card-title {
@@ -67,12 +66,21 @@
 		}
 
 		.card-date {
-			margin: 0;
-			margin-left: 0.5rem;
+			display: inline-flex;
+			color: var(--color-text-muted);
 
-			font-size: 0.9rem;
-			font-style: italic;
-			text-decoration: underline;
+      * {
+        margin: 0;
+      }
+
+      p {
+        font-size: 0.9rem;
+        font-style: italic;
+      }
+
+      svg {
+        margin-right: 0.25rem;
+      }
 		}
 	}
 }
